@@ -25,15 +25,39 @@ const routes: Array<RouteRecordRaw> = [
         name: "home",
         component: HomeView,
         meta: {
-          requiresAuth: true,
+          requiresAuth: false,
         },
       },
       {
         path: "/about",
         name: "about",
-        component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+        component: () => import('@/views/AboutView.vue'),
         meta: {
-          requiresAuth: true,
+          requiresAuth: false,
+        },
+      },
+      {
+        path: "/inventorymanagement",
+        name: "inventorymanagement",
+        component: () => import('@/views/InventoryManagement.vue'),
+        meta: {
+          requiresAuth: false,
+        },
+      },
+      {
+        path: "/ordermanagement",
+        name: "ordermanagement",
+        component: () => import('@/views/OrderManagement.vue'),
+        meta: {
+          requiresAuth: false,
+        },
+      },
+      {
+        path: "/purchasemanagement",
+        name: "purchasemanagement",
+        component: () => import('@/views/PurchaseManagement.vue'),
+        meta: {
+          requiresAuth: false,
         },
       },
     ],

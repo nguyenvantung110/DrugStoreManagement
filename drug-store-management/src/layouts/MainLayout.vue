@@ -1,8 +1,10 @@
 <template>
     <NavBarComponent />
-    <router-view />
+    <div class="mt-16 flex-grow-1">
+        <router-view />
+    </div>
     <LoadingComponent />
-    <FooterComponent />
+    <!-- <FooterComponent /> -->
 </template>
 <script setup lang="ts">
     import NavBarComponent from "@/components/common/navbar-component.vue";

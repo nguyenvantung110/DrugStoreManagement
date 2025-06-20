@@ -13,3 +13,7 @@
     overflow: hidden;
     /* overflow-y: auto; */
   }
+
+.elevation-24, .v-picker.v-sheet, .v-sheet {
+  box-shadow: none !important;
+}
