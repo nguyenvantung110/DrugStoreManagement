@@ -1,6 +1,10 @@
 <template>
   <v-container fluid class="homepage-bg d-flex align-center justify-center fill-height pa-0">
     <div class="homepage-overlay"></div>
+    <v-btn @click="showSuccess" style="z-index: 100;">showSuccess</v-btn>
+  <v-btn @click="showError" style="z-index: 100;">showError</v-btn>
+  <v-btn @click="showConfirm" style="z-index: 100;">showConfirm</v-btn>
+  <v-btn @click="showAlert" style="z-index: 100;">showAlert</v-btn>
     <v-row align="center" justify="center" class="ma-0 pa-0" style="z-index:2; width:100%;">
       <v-col cols="12" md="10" lg="9" xl="8">
         <v-card class="homepage-card pa-8" elevation="15" v-motion v-motion-fade v-motion-slide-bottom>
@@ -90,6 +94,32 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useDialog } from '@/composables/common/useDialog'
+
+const dialog = useDialog()
+
+
+function showSuccess() {
+  dialog.success('Lưu thành công!')
+}
+function showError() {
+  dialog.error('Có lỗi!')
+}
+
+async function showAlert() {
+  await dialog.alert('Alert!')
+  console.log('Alert confirmed!')
+}
+
+async function showConfirm() {
+  const ok = await dialog.confirm('Bạn có chắc chắn muốn xóa không?')
+  if (ok) {
+    console.log('Xóa thành công!', ok)
+  }
+  else {
+    console.log('Hủy thao tác!', ok)
+  }
+}
 
 const quickStats = [
   { icon: 'mdi-package-variant-closed', value: 120, title: 'Loại thuốc', color: 'primary' },

@@ -9,18 +9,38 @@
         <v-btn>
           <router-link to="/">Trang chủ</router-link>
         </v-btn>
-        <v-btn>
+        <!-- <v-btn>
           <router-link to="/ordermanagement">Đơn đặt hàng</router-link>
         </v-btn>
         <v-btn>
           <router-link to="/purchasemanagement">Nhập hàng</router-link>
-        </v-btn>
+        </v-btn> -->
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn color="primary" v-bind="props">Đơn hàng</v-btn>
+          </template>
+          <v-list>
+            <v-list-item :key="1" :value="1">
+              <v-list-item-title><router-link to="/ordermanagement">Đơn đặt hàng</router-link></v-list-item-title>
+            </v-list-item>
+            <v-list-item :key="2" :value="2">
+              <v-list-item-title><router-link to="/purchasemanagement">Nhập hàng</router-link></v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-btn>
           <router-link to="/inventorymanagement">Quản lý kho</router-link>
         </v-btn>
+        <v-btn>
+          <router-link to="/suppliermanagement">Nhà cung cấp</router-link>
+        </v-btn>
         
         <template v-slot:append>
-            <v-btn icon="mdi-bell"></v-btn>
+            <v-btn color="primary" @click="isReaded = !isReaded">
+              <v-icon v-if="!isReaded" size="20" color="red">mdi-bell-badge</v-icon>
+              <v-icon v-else size="20" color="primary">mdi-bell</v-icon>
+            </v-btn>
+            <!-- <v-btn v-else color="primary" icon="mdi-bell" @click="isReaded = !isReaded"></v-btn> -->
             <!-- <v-btn icon="mdi-account"></v-btn> -->
             <v-menu>
               <template v-slot:activator="{ props }">
@@ -34,7 +54,7 @@
                   <v-list-item-title @click="router.push('/login')">Đăng xuất</v-list-item-title>
                 </v-list-item>
               </v-list>
-          </v-menu>
+            </v-menu>
         </template>
     </v-app-bar>
 </template>
@@ -45,7 +65,8 @@
   const router = useRouter();
   const authenticationStore = useAuthenticationStore();
   const isShowMenu = ref(false);
-  
+  const isReaded = ref(false);
+
   /**
    * Hook onMounted
    */

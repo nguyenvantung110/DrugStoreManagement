@@ -85,7 +85,11 @@
   <script setup lang="ts">
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useAuthenticationStore } from '@/composables/auth/authenticationStore'
   
+  //Store
+  const authStore = useAuthenticationStore()
+
   // State
   const isLogin = ref(true)
   const username = ref('')
@@ -96,7 +100,7 @@
   const loading = ref(false)
   const valid = ref(false)
   const formRef = ref()
-  
+
   const usernameRules = [
     (v: string) => !!v || 'Vui lòng nhập tên đăng nhập',
     (v: string) => v.length >= 3 || 'Tối thiểu 3 ký tự',
@@ -112,17 +116,22 @@
   
   const router = useRouter()
   
-  function onLogin() {
+  const onLogin = async () => {
     router.push('/')
     if (!valid.value) {
       (formRef.value as any)?.validate?.()
       return
     }
-    loading.value = true
-    setTimeout(() => {
-      loading.value = false
-      router.push('/')
-    }, 1000)
+    //loading.value = true
+    const loginRequest = {
+      username: username.value,
+      password: password.value
+    }
+
+    await authStore.login(loginRequest, (res: any) => {
+      console.log(res);
+      router.push('/');
+    })
   }
   
   function onRegister() {
