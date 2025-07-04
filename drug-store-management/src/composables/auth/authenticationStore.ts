@@ -4,27 +4,30 @@ import { END_POINTS } from "@/endpoints/api-endpoints";
 
 export const useAuthenticationStore = defineStore("authentication-store", {
   state: () => ({
-    homeAccountId: "" as string,
     accessToken: "" as string,
     authenticated: false,
-    userInfo: null,
+    userId: "" as string,
   }),
   actions: {
     // Log in
     async login(req: any, success: any) {
       const { post } = useApi();
-
-      await post(END_POINTS.AUTH.LOGIN(),req)
-      .then((res) => {
-          this.authenticated = true;
-          success(res);
-          this.accessToken = (res.data as any)?.token;
-      });
+      try {
+        await post(END_POINTS.AUTH.LOGIN(),req)
+        .then((res) => {
+            this.authenticated = true;
+            success(res);
+            this.accessToken = (res.data as any)?.token;
+            this.userId = (res.data as any)?.userId;
+        });
+      } catch (e) {
+        if (success) success(null);
+      }
     },
     // Setters
     setToken(token: string) {
       this.accessToken = token;
-    },
+    }
   },
   getters: {
     getAccessToken(state) {
@@ -33,9 +36,9 @@ export const useAuthenticationStore = defineStore("authentication-store", {
     isAuthenticated(state) {
       return state.authenticated;
     },
-    getUserInfo(state) {
-      return state.userInfo;
-    },
+    getterUserId(state) {
+      return state.userId;
+    }
   },
   persist: [
     {

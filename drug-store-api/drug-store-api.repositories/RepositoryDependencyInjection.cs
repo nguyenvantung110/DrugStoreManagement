@@ -1,11 +1,6 @@
 ﻿using drug_store_api.repositories.Factory;
 using drug_store_api.repositories.IF;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace drug_store_api.repositories
 {
@@ -15,7 +10,8 @@ namespace drug_store_api.repositories
         {
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-
+            services.AddScoped<IPurchaseOrdersRepository, PurchaseOrdersRepository>();
+            services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
             return services;
         }
     }

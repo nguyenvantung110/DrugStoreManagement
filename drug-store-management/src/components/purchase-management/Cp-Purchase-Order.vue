@@ -22,7 +22,7 @@
         </div>
         <div class="inventory-details border-sm rounded-lg flex-xl-grow-1 pa-2">
             <div class="details-header pa-2">
-                <h2 class="text-h5">Chi tiết đơn đặt</h2>
+                <h2 class="text-h5">Chi tiết đơn nhập hàng</h2>
             </div>
             <div class="details-data">
                 <v-data-table-virtual

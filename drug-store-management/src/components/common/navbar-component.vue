@@ -7,32 +7,30 @@
         <v-app-bar-title>Nhà thuốc Xanh</v-app-bar-title>
     
         <v-btn>
-          <router-link to="/">Trang chủ</router-link>
+          <router-link class="text-primary" to="/">Trang chủ</router-link>
         </v-btn>
-        <!-- <v-btn>
-          <router-link to="/ordermanagement">Đơn đặt hàng</router-link>
-        </v-btn>
-        <v-btn>
-          <router-link to="/purchasemanagement">Nhập hàng</router-link>
-        </v-btn> -->
         <v-menu>
           <template v-slot:activator="{ props }">
             <v-btn color="primary" v-bind="props">Đơn hàng</v-btn>
           </template>
           <v-list>
             <v-list-item :key="1" :value="1">
-              <v-list-item-title><router-link to="/ordermanagement">Đơn đặt hàng</router-link></v-list-item-title>
+              <v-list-item-title>
+                <router-link class="text-primary" to="/purchase-request">Đơn đặt hàng</router-link>
+              </v-list-item-title>
             </v-list-item>
             <v-list-item :key="2" :value="2">
-              <v-list-item-title><router-link to="/purchasemanagement">Nhập hàng</router-link></v-list-item-title>
+              <v-list-item-title>
+                <router-link class="text-primary" to="/purchase-order">Nhập hàng</router-link>
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
         <v-btn>
-          <router-link to="/inventorymanagement">Quản lý kho</router-link>
+          <router-link class="text-primary" to="/inventorymanagement">Quản lý kho</router-link>
         </v-btn>
         <v-btn>
-          <router-link to="/suppliermanagement">Nhà cung cấp</router-link>
+          <router-link class="text-primary" to="/suppliermanagement">Nhà cung cấp</router-link>
         </v-btn>
         
         <template v-slot:append>
@@ -48,10 +46,14 @@
               </template>
               <v-list>
                 <v-list-item :key="1" :value="1">
-                  <v-list-item-title>Tài khoản</v-list-item-title>
+                  <v-list-item-title class="text-primary"  @click="router.push('/userinfo')">
+                    Tài khoản
+                  </v-list-item-title>
                 </v-list-item>
                 <v-list-item :key="2" :value="2">
-                  <v-list-item-title @click="router.push('/login')">Đăng xuất</v-list-item-title>
+                  <v-list-item-title class="text-primary" @click="router.push('/login')">
+                    Đăng xuất
+                  </v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>

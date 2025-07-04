@@ -37,6 +37,10 @@ export const END_POINTS = {
   AUTH: {
     LOGIN: createEndpoint("/api/auth/login"),
   },
+  USER: {
+    GET_USER_INFO: createEndpoint("api/users/:id"),
+    UPDATE_USER_INFO: createEndpoint("api/users/update"),
+  },
   SUPPLIERS: {
     GET_LIST: createEndpoint("/api/suppliers"),
     GET_BY_ID: createEndpoint("/api/suppliers/:id"),
@@ -44,4 +48,7 @@ export const END_POINTS = {
     UPDATE: createEndpoint("/api/suppliers/update"),
     DELETE: createEndpoint("/api/suppliers/delete"),
   },
+  PURCHASE_REQUEST: {
+    GET_PURCHASE_REQUEST_BY_REQUEST_DATE: createEndpoint("/api/purchase-request/get-by-created-date/:requestDate"),
+  }
 };

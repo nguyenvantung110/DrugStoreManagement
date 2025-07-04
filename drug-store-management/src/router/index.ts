@@ -54,17 +54,17 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/ordermanagement",
-        name: "ordermanagement",
-        component: () => import('@/views/OrderManagement.vue'),
+        path: "/purchase-order",
+        name: "purchase-order",
+        component: () => import('@/views/purchase-management/PurchaseOrderView.vue'),
         meta: {
           requiresAuth: true,
         },
       },
       {
-        path: "/purchasemanagement",
-        name: "purchasemanagement",
-        component: () => import('@/views/PurchaseManagement.vue'),
+        path: "/purchase-request",
+        name: "purchase-request",
+        component: () => import('@/views/purchase-management/PurchaseRequestView.vue'),
         meta: {
           requiresAuth: true,
         },
@@ -73,6 +73,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "/suppliermanagement",
         name: "suppliermanagement",
         component: () => import('@/views/SupplierManagement.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "/userinfo",
+        name: "userinfo",
+        component: () => import('@/views/UserInfoView.vue'),
         meta: {
           requiresAuth: true,
         },

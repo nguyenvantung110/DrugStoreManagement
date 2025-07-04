@@ -86,9 +86,12 @@
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuthenticationStore } from '@/composables/auth/authenticationStore'
-  
+  import { useDialog } from '@/composables/common/useDialog'
+  import { MESSAGE } from '@/constants/message'
+
   //Store
   const authStore = useAuthenticationStore()
+  const dialog = useDialog()
 
   // State
   const isLogin = ref(true)
@@ -102,35 +105,38 @@
   const formRef = ref()
 
   const usernameRules = [
-    (v: string) => !!v || 'Vui lòng nhập tên đăng nhập',
-    (v: string) => v.length >= 3 || 'Tối thiểu 3 ký tự',
+    (v: string) => !!v || MESSAGE.LGSC.LGSC_VLD_001,
+    (v: string) => v.length >= 3 || MESSAGE.LGSC.LGSC_VLD_002,
   ]
   const passwordRules = [
-    (v: string) => !!v || 'Vui lòng nhập mật khẩu',
-    (v: string) => v.length >= 3 || 'Tối thiểu 3 ký tự',
+    (v: string) => !!v || MESSAGE.LGSC.LGSC_VLD_003,
+    (v: string) => v.length >= 3 || MESSAGE.LGSC.LGSC_VLD_004,
   ]
   const confirmPasswordRules = [
-    (v: string) => !!v || 'Vui lòng xác nhận mật khẩu',
-    (v: string) => v === password.value || 'Mật khẩu xác nhận không khớp'
+    (v: string) => !!v || MESSAGE.LGSC.LGSC_VLD_005,
+    (v: string) => v === password.value || MESSAGE.LGSC.LGSC_VLD_006
   ]
   
   const router = useRouter()
   
   const onLogin = async () => {
-    router.push('/')
     if (!valid.value) {
       (formRef.value as any)?.validate?.()
       return
     }
-    //loading.value = true
+
     const loginRequest = {
       username: username.value,
       password: password.value
     }
 
     await authStore.login(loginRequest, (res: any) => {
-      console.log(res);
-      router.push('/');
+      if (res) {
+        router.push('/')
+      }
+      else {
+       dialog.error(MESSAGE.LGSC.LGSC_ER_001)
+      }
     })
   }
   

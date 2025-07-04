@@ -29,7 +29,10 @@ export function useApi() {
     (response: any) => response,
     async (error: AxiosError) => {
       if (error.response && error.response.status === 401) {
-        window.location.href = "/login";
+        if (window.location.pathname !== "/login")
+        {
+            window.location.href = "/login"
+        }
       } else {
         handleApiError(error);
       }

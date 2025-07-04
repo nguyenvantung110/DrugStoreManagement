@@ -1,6 +1,6 @@
 ﻿using drug_store_api.data;
 using drug_store_api.entities.Suppliers;
-using drug_store_api.entities.User;
+using drug_store_api.entities.Users;
 using drug_store_api.repositories.IF;
 using Microsoft.EntityFrameworkCore;
 

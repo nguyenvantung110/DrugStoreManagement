@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\drug-store-api.entities\drug-store-api.entities.csproj" />
+  </ItemGroup>
+
 </Project>

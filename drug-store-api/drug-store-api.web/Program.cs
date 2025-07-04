@@ -1,6 +1,8 @@
 using AutoMapper;
 using drug_store_api.data;
-using drug_store_api.entities.User;
+using drug_store_api.entities.PurchaseOrders;
+using drug_store_api.entities.PurchaseRequests;
+using drug_store_api.entities.Users;
 using drug_store_api.repositories;
 using drug_store_api.services;
 using drug_store_api.systemcommon.Mappings;
@@ -8,17 +10,28 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
+using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
+
 builder.Services.AddDbContext<DrugStoreDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
     {
         npgsqlOptions.MapEnum<UserRole>("user_role");
+        npgsqlOptions.MapEnum<PurchaseOrderStatusEnum>("purchase_order_status_enum");
+        npgsqlOptions.MapEnum<PurchaseRequestStatusEnum>("purchase_request_status_enum");
     }));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -70,7 +83,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings["Key"]!))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings["Key"]!)),
+        NameClaimType = ClaimTypes.NameIdentifier
     };
 });
 
@@ -101,6 +115,8 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

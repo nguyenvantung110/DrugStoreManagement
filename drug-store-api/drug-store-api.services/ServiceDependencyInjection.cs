@@ -10,7 +10,9 @@ namespace drug_store_api.services
         {
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IAuthService, AuthService>();
-
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
+            services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
             return services;
         }
     }

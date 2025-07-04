@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useApi } from "@/composables/common/api-instance";
 import { END_POINTS } from "@/endpoints/api-endpoints";
 
-export const useSupplierStore = defineStore("supplierStore", {
+export const useSupplierStore = defineStore("supplier-store", {
   state: () => ({ 
   }),
   actions: {
@@ -35,4 +35,10 @@ export const useSupplierStore = defineStore("supplierStore", {
       await post(END_POINTS.SUPPLIERS.DELETE(), supplierId)
     },
   },
+  persist: [
+    {
+      key: 'supplier-store',
+      storage: sessionStorage,
+    }
+  ],
 });

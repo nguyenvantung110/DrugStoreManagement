@@ -1,5 +1,5 @@
-﻿using drug_store_api.services.IF;
-using Microsoft.AspNetCore.Http;
+﻿using drug_store_api.dtos.Auth;
+using drug_store_api.services.IF;
 using Microsoft.AspNetCore.Mvc;
 
 namespace drug_store_api.web.Controllers
@@ -15,20 +15,14 @@ namespace drug_store_api.web.Controllers
             _authService = authService;
         }
 
-        public class AuthRequest
-        {
-            public string Username { get; set; } = null!;
-            public string Password { get; set; } = null!;
-        }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthRequest request)
         {
-            var token = await _authService.AuthenticateAsync(request.Username, request.Password);
-            if (token == null)
+            var userInfo = await _authService.AuthenticateAsync(request.Username, request.Password);
+            if (userInfo?.Token == null)
                 return Unauthorized(new { message = "Invalid credentials" });
 
-            return Ok(new { token });
+            return Ok(userInfo);
         }
     }
 }
