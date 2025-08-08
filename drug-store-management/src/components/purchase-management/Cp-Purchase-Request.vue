@@ -44,7 +44,7 @@ import calendarComponent from '@/components/common/calendar-component.vue';
 import { ref, onMounted } from 'vue';
 import { usePurchaseRequestStore } from '@/composables/purchase/purchaseRequestStore';
 import { format } from 'date-fns'
-import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz'
+import { formatInTimeZone } from 'date-fns-tz'
 
 const purchaseRequestStore = usePurchaseRequestStore()
 
@@ -91,7 +91,7 @@ onMounted(async () => {
 const getPurchaseList = async(requestDate: any = new Date()) => {
   const convertDate = formatDateToYMDHMS(requestDate);
 
-  await purchaseRequestStore.getPurchaseRequestByRequestDate(convertDate, (res) => {
+  await purchaseRequestStore.getPurchaseRequestByRequestDate(convertDate, (res: any) => {
     searchList.value = res?.data
   })
 }

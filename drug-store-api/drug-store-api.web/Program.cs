@@ -60,7 +60,13 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: DrugStoreAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:8081")
+            var origins = new[]
+            {
+                "http://localhost:8081",
+                "http://localhost:8080"
+            };
+
+            policy.WithOrigins(origins)
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();

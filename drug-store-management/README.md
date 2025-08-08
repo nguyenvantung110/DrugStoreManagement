@@ -32,3 +32,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Reference template 
+See [Template reference](https://dashlite.net/demo7/pharmacy/add-medicine.html)

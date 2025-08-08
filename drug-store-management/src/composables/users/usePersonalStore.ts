@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useApi } from "@/composables/common/api-instance";
 import { END_POINTS } from "@/endpoints/api-endpoints";
 
-export const useUserStore = defineStore("user-store", {
+export const usePersonalStore = defineStore("personal-store", {
   state: () => ({
     userInfo: {},
   }),
@@ -29,7 +29,7 @@ export const useUserStore = defineStore("user-store", {
   },
   persist: [
     {
-      key: 'user-store',
+      key: 'personal-store',
       storage: sessionStorage,
     }
   ],

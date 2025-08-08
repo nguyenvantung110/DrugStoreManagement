@@ -25,7 +25,7 @@
     justify-content: center;
     height: 100%;
     width: 100vw;
-    z-index: 1000;
+    z-index: 9999;
     }
 
     .spinner {

@@ -1,9 +1,25 @@
 <template>
-    <v-container fluid class="pa-0">
-      <v-row>
+    <v-container fluid class="pa-0 h-full">
+      <v-row class="h-full relative">
         <!-- Sidebar chức năng (ẩn trên mobile, chỉ hiện trên md+) -->
-        <v-col cols="12" md="3" class="d-none d-md-block">
-          <v-card class="pa-4 mb-4" elevation="3">
+         <button
+            color="primary"
+            @click="isShowMenu = !isShowMenu"
+            :class="{
+              'absolute top-0 left-0 z-50 rounded-e-3xl bg-neutral-100 transition duration-300': true,
+              'w-1/6 text-right pr-2': isShowMenu,
+              'pl-3': !isShowMenu
+            }"
+          >
+            <v-icon size="30" color="primary" :class="{'transition-transform duration-300': true, 'rotate-180': isShowMenu}">mdi-chevron-right</v-icon>
+          </button>
+        <v-col
+          v-if="isShowMenu"
+          cols="12"
+          md="2"
+          class="d-none d-md-block h-full flex flex-col justify-between transition-transform duration-300"
+        >
+          <v-card class="pa-4 mb-4 relative">
             <v-list nav dense>
               <v-list-item
                 v-for="option in sidebarOptions"
@@ -14,9 +30,9 @@
                 color="primary"
                 style="cursor:pointer"
               >
-                <v-list-item-icon>
+                <!-- <v-list-item-icon>
                   <v-icon>{{ option.icon }}</v-icon>
-                </v-list-item-icon>
+                </v-list-item-icon> -->
                 <v-list-item-title>{{ option.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -28,7 +44,7 @@
         </v-col>
   
         <!-- Main content -->
-        <v-col cols="12" md="9">
+        <v-col class="grow">
           <v-card flat class="pa-2 pa-md-5">
             <!-- Tabs navigation cho mobile -->
             <v-tabs
@@ -90,4 +106,5 @@
   ]
   
   const currentTab = ref('stock_check')
+  const isShowMenu = ref<boolean>(false)
   </script>

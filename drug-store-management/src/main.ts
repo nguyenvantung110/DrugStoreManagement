@@ -13,6 +13,9 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import VueApexCharts from "vue3-apexcharts";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
+// Tailwind css
+import "@/assets/base.css";
+
 const app = createApp(App);
 
 const pinia = createPinia();

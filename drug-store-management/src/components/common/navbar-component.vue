@@ -1,13 +1,17 @@
 <template lang="">
     <v-app-bar :elevation="2">
         <template v-slot:prepend>
-            <v-app-bar-nav-icon></v-app-bar-nav-icon>
+            <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
+            <v-icon size="30" color="primary">mdi-pill</v-icon>
         </template>
 
         <v-app-bar-title>Nhà thuốc Xanh</v-app-bar-title>
     
         <v-btn>
           <router-link class="text-primary" to="/">Trang chủ</router-link>
+        </v-btn>
+        <v-btn>
+          <router-link class="text-primary" to="/sales">Bán hàng</router-link>
         </v-btn>
         <v-menu>
           <template v-slot:activator="{ props }">
@@ -31,6 +35,9 @@
         </v-btn>
         <v-btn>
           <router-link class="text-primary" to="/suppliermanagement">Nhà cung cấp</router-link>
+        </v-btn>
+        <v-btn>
+          <router-link class="text-primary" to="/test">Test</router-link>
         </v-btn>
         
         <template v-slot:append>

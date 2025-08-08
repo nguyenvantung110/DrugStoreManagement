@@ -38,6 +38,30 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/test",
+        name: "test",
+        component: () => import('@/views/TestView.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "/sales",
+        name: "sales",
+        component: () => import('@/views/sales/SalesView.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "/payment",
+        name: "payment",
+        component: () => import('@/views/sales/PaymentView.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
         path: "/about",
         name: "about",
         component: () => import('@/views/AboutView.vue'),
@@ -78,9 +102,25 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/userinfo",
-        name: "userinfo",
-        component: () => import('@/views/UserInfoView.vue'),
+        path: "/personalinfo",
+        name: "personalinfo",
+        component: () => import('@/views/PersonalInfoView.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "/usermanagement",
+        name: "usermanagement",
+        component: () => import('@/views/users/UserView.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "/customermanagement",
+        name: "customermanagement",
+        component: () => import('@/views/customers/CustomerView.vue'),
         meta: {
           requiresAuth: true,
         },
