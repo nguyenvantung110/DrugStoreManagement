@@ -1,4 +1,4 @@
-type Params = Record<string, string | number>;
+type Params = Record<string, string | number | null | undefined>;
 
 interface EndpointParams {
   pathParams?: Params;
@@ -38,8 +38,11 @@ export const END_POINTS = {
     LOGIN: createEndpoint("/api/auth/login"),
   },
   USER: {
+    GET_USER_LIST: createEndpoint("/api/users"),
     GET_USER_INFO: createEndpoint("api/users/:id"),
     UPDATE_USER_INFO: createEndpoint("api/users/update"),
+    CREATE_USER: createEndpoint("api/users/create"),
+    DELETE_USER: createEndpoint("api/users/delete/:id"),
   },
   SUPPLIERS: {
     GET_LIST: createEndpoint("/api/suppliers"),
@@ -50,5 +53,21 @@ export const END_POINTS = {
   },
   PURCHASE_REQUEST: {
     GET_PURCHASE_REQUEST_BY_REQUEST_DATE: createEndpoint("/api/purchase-request/get-by-created-date/:requestDate"),
+  },
+  PRODUCT: {
+    GET_BASIC_INFO_LIST: createEndpoint("/api/products/get-basic-info-list"),
+  },
+  PRESCRIPTION: {
+    GET_PRESCRIPTION_TEMPLATES: createEndpoint("/api/prescriptions/get-templates"),
+    CREATE_PRESCRIPTION_TEMPLATE: createEndpoint("/api/prescriptions/create-template"),
+    UPDATE_PRESCRIPTION_TEMPLATE: createEndpoint("/api/prescriptions/update-template"),
+    DELETE_PRESCRIPTION_TEMPLATE: createEndpoint("/api/prescriptions/delete-template/:id"),
+  },
+  CATEGORIES: {
+    GET_ALL_CATEGORIES: createEndpoint("/api/categories/get-all"),
+    GET_CATEGORY_BY_TYPE: createEndpoint("/api/categories/get-by-type"),
+    CREATE_CATEGORY: createEndpoint("/api/categories/create"),
+    UPDATE_CATEGORY: createEndpoint("/api/categories/update"),
+    DELETE_CATEGORY: createEndpoint("/api/categories/delete/:id"),
   }
 };

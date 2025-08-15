@@ -109,7 +109,7 @@
                 rows="3"
                 density="compact"
                 variant="outlined"
-                class="form-input"
+                class="form-input text-area-input"
                 hide-details="auto"
                 auto-grow
               >
@@ -195,7 +195,7 @@
                 rows="2"
                 density="compact"
                 variant="outlined"
-                class="form-input"
+                class="form-input text-area-input"
                 hide-details="auto"
                 auto-grow
               >
@@ -489,5 +489,9 @@ watch(() => props.modelValue, (isOpen) => {
   .md\:col-span-2 {
     @apply col-span-1;
   }
+}
+
+.text-area-input :deep(.v-field__input) {
+  padding-top: 10px !important;
 }
 </style>

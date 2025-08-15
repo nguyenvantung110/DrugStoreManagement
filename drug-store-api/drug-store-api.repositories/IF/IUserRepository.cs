@@ -9,6 +9,7 @@ namespace drug_store_api.repositories.IF
         Task<User?> GetByIdAsync(Guid userId);
         Task CreateUser(User userDto);
         Task UpdateUser(User userDto);
+        Task UpdateLastLogin(User userDto);
         Task DeleteUser(Guid userId);
     }
 }

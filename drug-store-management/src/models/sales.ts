@@ -1,10 +1,12 @@
 export interface DrugItem {
   seq: number;
-  name: string;
+  productId: string;
+  productName: string;
   quantity: number;
-  unit: string;
+  unitOfMeasure: string;
   dosage: string;
-  unitPrice: number;
+  pricePerUnit: number;
+  manufacturer?: string;
   subTotal: number;
   id?: string; // ID thuốc từ database
   barcode?: string; // Mã vạch

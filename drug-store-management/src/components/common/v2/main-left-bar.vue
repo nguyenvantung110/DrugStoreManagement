@@ -103,11 +103,50 @@
           <span>Quản lý nhân viên</span>
         </router-link>
       </li>
+      <li>
+        <router-link
+          to="/reports"
+          class="flex items-center gap-4 px-5 py-3 rounded-xl cursor-pointer group transition text-sm font-medium"
+          :class="colorClassExact('/reports')"
+        >
+          <v-icon :color="iconColorExact('/reports')" size="20" class=" mr-1 transition-colors">mdi-finance</v-icon>
+          <span>Báo cáo</span>
+        </router-link>
+      </li>
+      <!-- <button
+        class="flex items-center gap-4 px-5 py-3 rounded-xl cursor-pointer group transition text-sm font-medium w-full select-none"
+        :class="colorClassCollapse"
+        @click="toggleDataMasterMenu"
+      >
+        <v-icon :color="iconColorCollapse" size="20" class="mr-1 transition-colors">mdi-file-document-outline</v-icon>
+        <span>Quản lý data</span>
+        <v-icon class="ml-auto transition-transform" :class="{'rotate-90': orderDataMasterOpen}" color="grey">
+          mdi-chevron-right
+        </v-icon>
+      </button>
+      <transition name="fade">
+        <ul v-show="orderDataMasterOpen" class="pl-15 flex flex-col gap-1">
+          <li>
+            <router-link
+              to="/purchase-request"
+              class="block py-2 text-sm rounded-lg transition font-medium"
+              :class="colorClassExact('/purchase-request')"
+            >Danh mục</router-link>
+          </li>
+          <li>
+            <router-link
+              to="/purchase-order"
+              class="block py-2 text-sm rounded-lg transition font-medium"
+              :class="colorClassExact('/purchase-order')"
+            >Thuốc</router-link>
+          </li>
+        </ul>
+      </transition> -->
     </ul>
     <!-- Avatar - icon vuetify -->
     <div class="mt-auto flex items-center gap-4 pt-10">
       <v-icon :color="highlightColor" class="text-3xl">mdi-account-circle</v-icon>
-      <span class="text-lg text-gray-600">Nguyen Van A</span>
+      <span class="text-gray-600">Nguyen Van A</span>
     </div>
   </aside>
 </template>
@@ -126,8 +165,16 @@ const orderMenuOpen = ref(
   ['/purchase-request', '/purchase-order'].includes(route.path)
 )
 
+const orderDataMasterOpen = ref(
+  ['/purchase-request', '/purchase-order'].includes(route.path)
+)
+
 function toggleOrderMenu() {
   orderMenuOpen.value = !orderMenuOpen.value
+}
+
+function toggleDataMasterMenu() {
+  orderDataMasterOpen.value = !orderDataMasterOpen.value
 }
 
 // Xác định active cho collapse

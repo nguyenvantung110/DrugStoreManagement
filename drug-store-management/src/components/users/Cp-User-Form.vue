@@ -50,7 +50,7 @@
 
             <!-- Phone -->
             <v-text-field
-              v-model="formData.phone"
+              v-model="formData.phoneNumber"
               label="Số điện thoại"
               :rules="phoneRules"
               density="compact"
@@ -88,7 +88,7 @@
             <!-- Password (only for creating) -->
             <template v-if="!isEditing">
               <v-text-field
-                v-model="formData.password"
+                v-model="formData.passwordHash"
                 label="Mật khẩu *"
                 :rules="passwordRules"
                 type="password"
@@ -164,9 +164,9 @@ const formData = ref({
   username: '',
   email: '',
   fullName: '',
-  phone: '',
+  phoneNumber: '',
   roleId: '',
-  password: '',
+  passwordHash: '',
   status: 'active' as UserStatus
 });
 
@@ -220,7 +220,7 @@ const passwordRules = [
 
 const confirmPasswordRules = [
   (v: string) => !!v || 'Xác nhận mật khẩu là bắt buộc',
-  (v: string) => v === formData.value.password || 'Mật khẩu xác nhận không khớp'
+  (v: string) => v === formData.value.passwordHash || 'Mật khẩu xác nhận không khớp'
 ];
 
 // Methods
@@ -229,9 +229,9 @@ const resetForm = (): void => {
     username: '',
     email: '',
     fullName: '',
-    phone: '',
+    phoneNumber: '',
     roleId: '',
-    password: '',
+    passwordHash: '',
     status: 'active'
   };
   confirmPassword.value = '';
@@ -239,13 +239,17 @@ const resetForm = (): void => {
 };
 
 const loadUserData = (user: User): void => {
+  const roleId = props.roles.find(role => {
+    return role.name.toLowerCase() === user.role.toLowerCase()
+  });
+
   formData.value = {
     username: user.username,
     email: user.email,
     fullName: user.fullName,
-    phone: user.phone || '',
-    roleId: user.role.id,
-    password: '',
+    phoneNumber: user.phoneNumber || '',
+    roleId: roleId?.id ?? '',
+    passwordHash: '',
     status: user.status
   };
 };
@@ -260,21 +264,22 @@ const handleSubmit = async (): Promise<void> => {
     const updateData: UpdateUserRequest = {
       email: formData.value.email,
       fullName: formData.value.fullName,
-      phone: formData.value.phone || undefined,
+      phoneNumber: formData.value.phoneNumber || undefined,
       roleId: formData.value.roleId,
       status: formData.value.status
     };
-    success = await usersStore.updateUser(props.user.id, updateData);
+    success = await usersStore.updateUser(props.user.userId, updateData);
   } else {
     // Create new user
     const createData: CreateUserRequest = {
       username: formData.value.username,
       email: formData.value.email,
       fullName: formData.value.fullName,
-      phone: formData.value.phone || undefined,
-      password: formData.value.password,
+      phoneNumber: formData.value.phoneNumber,
+      passwordHash: formData.value.passwordHash,
       roleId: formData.value.roleId
     };
+
     success = await usersStore.createUser(createData);
   }
 

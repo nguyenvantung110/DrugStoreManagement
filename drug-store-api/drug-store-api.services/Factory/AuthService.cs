@@ -60,6 +60,10 @@ namespace drug_store_api.services.Factory
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
+
+            user.LastLogin = DateTime.UtcNow;
+            await _userRepository.UpdateLastLogin(user);
+
             AuthResponse authResponse = new AuthResponse()
             {
                 Token = token,

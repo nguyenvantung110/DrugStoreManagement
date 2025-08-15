@@ -13,6 +13,9 @@ namespace drug_store_api.services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
             services.AddScoped<IPurchaseRequestService, PurchaseRequestService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPrescriptionService, PrescriptionService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             return services;
         }
     }

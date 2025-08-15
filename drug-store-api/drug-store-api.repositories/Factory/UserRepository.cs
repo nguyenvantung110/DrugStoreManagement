@@ -44,6 +44,17 @@ namespace drug_store_api.repositories.Factory
                 .SetProperty(x => x.Email, user.Email)
                 .SetProperty(x => x.PhoneNumber, user.PhoneNumber)
                 .SetProperty(x => x.UpdatedAt, DateTime.UtcNow)
+                .SetProperty(x => x.Status, user.Status)
+                .SetProperty(x => x.Role, user.Role)
+            );
+        }
+
+        public async Task UpdateLastLogin(User user)
+        {
+            await _context.Users
+            .Where(x => x.UserId == user.UserId)
+            .ExecuteUpdateAsync(setters => setters
+                .SetProperty(x => x.LastLogin, user.LastLogin)
             );
         }
 

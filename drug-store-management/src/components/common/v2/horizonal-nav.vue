@@ -35,7 +35,7 @@
                         </button>
                     </div>
                     <div class="info-footer border-t border-gray-400 py-5 px-7">
-                        <button class="flex flex-row gap-2 items-center">
+                        <button class="flex flex-row gap-2 items-center" @click="logout">
                             <v-icon size="20" color="primary">mdi-logout</v-icon>
                             <span class="text-sm">Đăng xuất</span>
                         </button>
@@ -74,6 +74,10 @@ const toggleMenu = (event: MouseEvent) => {
   event.stopPropagation();
   isShowAccountInfo.value = !isShowAccountInfo.value;
 };
+
+const logout = () => {
+    router.push('/login');
+}
 
 onMounted(() => {
     document.addEventListener('click', closeContextMenu)

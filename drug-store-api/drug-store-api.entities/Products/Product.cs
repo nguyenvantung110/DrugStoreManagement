@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using drug_store_api.entities.Categories;
 
 namespace drug_store_api.entities.Products
 {
@@ -36,9 +37,8 @@ namespace drug_store_api.entities.Products
         [Column("wholesale_price", TypeName = "decimal(10,2)")]
         public decimal WholesalePrice { get; set; }
 
-        [StringLength(100)]
-        [Column("category")]
-        public string Category { get; set; }
+        [Column("category_id")]
+        public Guid CategoryId { get; set; }
 
         [StringLength(100)]
         [Column("manufacturer")]
@@ -55,5 +55,10 @@ namespace drug_store_api.entities.Products
 
         [Column("updated_at")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        [Column("barcode")]
+        public string? Barcode { get; set; }
+
+        public Category Category { get; set; }
     }
 }

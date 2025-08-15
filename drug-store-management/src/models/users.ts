@@ -1,11 +1,12 @@
 export interface User {
-  id: string;
+  userId: string;
   username: string;
+  passwordHash: string
   email: string;
   fullName: string;
-  phone?: string;
+  phoneNumber?: string;
   avatar?: string;
-  role: UserRole;
+  role: string;
   status: UserStatus;
   createdAt: Date;
   updatedAt: Date;
@@ -32,15 +33,15 @@ export interface CreateUserRequest {
   username: string;
   email: string;
   fullName: string;
-  phone?: string;
-  password: string;
+  phoneNumber?: string;
+  passwordHash: string;
   roleId: string;
 }
 
 export interface UpdateUserRequest {
   email?: string;
   fullName?: string;
-  phone?: string;
+  phoneNumber?: string;
   roleId?: string;
   status?: UserStatus;
 }

@@ -60,7 +60,7 @@ export function useApi() {
   const request = async <T>(
     config: AxiosRequestConfig,
   ): Promise<AxiosResponse<ApiResponse<T>>> => {
-    loadingStore.show();
+    // loadingStore.show();
 
     try {
       const response = await api.request<ApiResponse<T>>(config);

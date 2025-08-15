@@ -136,7 +136,7 @@
         />
 
         <v-btn
-          class="supplier-btn-secondary h-10"
+          class="clear-filter-btn-secondary"
           elevation="0"
           block
           @click="clearFilters"
@@ -157,12 +157,12 @@
       >
         <template #item.supplier_Name="{ item }">
           <div class="flex items-center gap-3">
-            <v-avatar size="32" color="primary">
+            <v-avatar size="32" color="#11c393">
               <v-icon color="white" size="16">mdi-domain</v-icon>
             </v-avatar>
             <div>
               <p class="font-medium text-gray-800">{{ item.supplier_Name }}</p>
-              <p class="text-xs text-gray-500">ID: {{ item.supplier_Id }}</p>
+              <!-- <p class="text-xs text-gray-500">ID: {{ item.supplier_Id }}</p> -->
             </div>
           </div>
         </template>
@@ -212,7 +212,7 @@
         </template>
 
         <template #item.actions="{ item }">
-          <div class="flex gap-1">
+          <div class="flex gap-1 justify-center">
             <v-btn
               icon
               size="small"
@@ -220,7 +220,7 @@
               class="action-btn"
               @click="viewSupplierDetail(item)"
             >
-              <v-icon size="16" color="primary">mdi-eye</v-icon>
+              <v-icon size="16" color="#11c393">mdi-eye</v-icon>
             </v-btn>
             
             <v-btn
@@ -230,7 +230,7 @@
               class="action-btn"
               @click="openEditDialog(item)"
             >
-              <v-icon size="16" color="primary">mdi-pencil</v-icon>
+              <v-icon size="16" color="#11c393">mdi-pencil</v-icon>
             </v-btn>
             
             <v-btn
@@ -268,6 +268,11 @@
       @save="handleSaveSupplier"
     />
 
+    <Cp-Supplier-Detail-Modal
+      v-model="showDetailModal"
+      :supplier="selectedSupplierForDetail"
+    />
+
     <!-- Delete Confirmation Dialog -->
     <Cp-Confirm-Dialog
       v-model="showDeleteDialog"
@@ -284,7 +289,9 @@ import { computed, onMounted, ref } from 'vue';
 import { useSupplierStore } from '@/composables/suppliers/supplierStore';
 import { useDialog } from '@/composables/common/useDialog';
 import type { TableHeader } from '@/models/sales';
-import CpSupplierFormModal from './Cp-Supplier-Form-Modal.vue';
+import CpSupplierFormModal from '@/components/suppliers/Cp-Supplier-Form-Modal.vue';
+import CpSupplierDetailModal from '@/components/suppliers/Cp-Supplier-Detail-Modal.vue'
+
 
 interface SupplierDto {
   supplier_Id: string;
@@ -313,6 +320,8 @@ const showDeleteDialog = ref(false);
 const selectedSupplier = ref<SupplierDto | null>(null);
 const supplierToDelete = ref<SupplierDto | null>(null);
 const isLoading = ref(false);
+const showDetailModal = ref<boolean>(false)
+const selectedSupplierForDetail = ref<SupplierDto | null>(null)
 
 // Table configuration
 const tableHeaders = ref<TableHeader[]>([
@@ -457,8 +466,8 @@ const openEditDialog = (supplier: SupplierDto): void => {
 };
 
 const viewSupplierDetail = (supplier: SupplierDto): void => {
-  // Implementation for viewing supplier details
-  console.log('View supplier detail:', supplier);
+  selectedSupplierForDetail.value = supplier
+  showDetailModal.value = true
 };
 
 const confirmDeleteSupplier = (supplier: SupplierDto): void => {
@@ -505,6 +514,11 @@ onMounted(async () => {
   min-width: auto !important;
 }
 
+.clear-filter-btn-secondary {
+  @apply rounded px-4 h-full font-medium text-[#11c393] bg-white border border-[#11c393] hover:bg-[#11c393] hover:text-white tracking-wide transition-all duration-200;
+  min-width: auto !important;
+}
+
 .filter-input :deep(.v-field) {
   @apply rounded h-10;
   background: #f8fafc;
@@ -530,7 +544,7 @@ onMounted(async () => {
 }
 
 .supplier-table :deep(thead th) {
-  @apply font-semibold text-gray-700 bg-gray-50 text-sm;
+  @apply font-semibold text-gray-700 bg-gray-50 text-sm !important;
   border-bottom: 2px solid #e5e7eb;
   padding: 12px 8px;
   height: 48px;
@@ -542,7 +556,7 @@ onMounted(async () => {
 }
 
 .supplier-table :deep(tbody td) {
-  @apply px-2 py-3 text-sm;
+  @apply px-2 py-2 text-sm !important;
   border-bottom: 1px solid #f1f5f9;
 }
 

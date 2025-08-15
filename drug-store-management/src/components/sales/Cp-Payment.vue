@@ -77,10 +77,9 @@
           class="mb-4"
         />
 
-        <!-- Nút thanh toán -->
         <v-btn
           type="submit"
-          color="primary"
+          color="#11c393"
           class="w-full py-3 text-white font-bold rounded-md hover:bg-blue-700 transition-colors"
         >
           Thanh Toán Ngay
@@ -92,7 +91,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';  // Import nếu dùng Vue Router
+import { useRouter } from 'vue-router';
 
 // Định nghĩa type cho Item (TypeScript)
 interface Item {

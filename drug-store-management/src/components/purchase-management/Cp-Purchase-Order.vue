@@ -83,9 +83,7 @@ const selectDate = (val: any) => {
 }
 
 function onRowClick(item: any, index: number) {
-  // Xử lý khi click dòng
   dummyDetails();
-  console.log(detailsList.value)
 }
 
 const dummyDetails = () => {

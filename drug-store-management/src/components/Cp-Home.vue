@@ -1,10 +1,10 @@
 <template>
-  <v-container class="px-2 md:px-8 py-4">
+  <v-container class="px-10 md:px-8 py-4">
     <!-- Welcome Header -->
     <div class="mb-8 text-center">
       <div class="flex items-center justify-center gap-4 mb-4">
         <div class="p-3 bg-[#11c393] rounded-2xl shadow-lg">
-          <v-icon size="32" color="white">mdi-pharmacy</v-icon>
+          <v-icon size="32" color="white">mdi-pill-multiple</v-icon>
         </div>
         <div class="text-left">
           <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Chào mừng đến với Nhà thuốc Xanh</h1>
@@ -483,7 +483,7 @@ const topProductsChartOptions = ref({
         }
       },
       stroke: {
-        width: 3
+        width: 2
       },
       plotOptions: {
         pie: {

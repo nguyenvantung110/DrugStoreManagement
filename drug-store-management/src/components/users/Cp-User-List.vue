@@ -80,7 +80,7 @@
         />
 
         <v-btn
-          class="user-btn-secondary h-10"
+          class="filter-btn-secondary"
           elevation="0"
           block
           @click="clearFilters"
@@ -100,20 +100,20 @@
         density="compact"
       >
         <template #item.avatar="{ item }">
-          <v-avatar size="32" color="primary">
-            <v-img v-if="item.avatar" :src="item.avatar" />
+          <v-avatar size="32" color="#11c393">
+            <v-img v-if="item.avatar" :src="item.avatar"/>
             <span v-else class="text-white text-sm">{{ getInitials(item.fullName) }}</span>
           </v-avatar>
         </template>
 
         <template #item.role="{ item }">
           <v-chip
-            :color="getRoleColor(item.role.name)"
+            :color="getRoleColor(item.role)"
             variant="tonal"
             size="small"
             class="font-medium"
           >
-            {{ item.role.displayName }}
+            {{ item.role }}
           </v-chip>
         </template>
 
@@ -135,7 +135,7 @@
         </template>
 
         <template #item.actions="{ item }">
-          <div class="flex gap-1">
+          <div class="flex gap-1 justify-center">
             <v-btn
               icon
               size="small"
@@ -163,7 +163,7 @@
               size="small"
               variant="plain"
               class="action-btn action-delete"
-              @click="confirmDeleteUser(item)"
+              @click="handleDeleteUser(item)"
             >
               <v-icon size="16" color="error">mdi-delete</v-icon>
             </v-btn>
@@ -186,15 +186,6 @@
       :roles="rolesList"
       @save="handleSaveUser"
     />
-
-    <!-- Delete Confirmation Dialog -->
-    <Cp-Confirm-Dialog
-      v-model="showDeleteDialog"
-      title="Xác nhận xóa người dùng"
-      :message="`Bạn có chắc chắn muốn xóa người dùng '${userToDelete?.fullName}'? Hành động này không thể hoàn tác.`"
-      color="error"
-      @confirm="handleDeleteUser"
-    />
   </v-container>
 </template>
 
@@ -203,6 +194,9 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useUsersStore } from '@/composables/users/usersStore';
 import type { User, TableHeader, UserStatus } from '@/models/users';
 import CpUserForm from '@/components/users/Cp-User-Form.vue';
+import { useDialog } from '@/composables/common/useDialog'
+
+const dialog = useDialog()
 
 // Store
 const usersStore = useUsersStore();
@@ -259,7 +253,7 @@ const getInitials = (fullName: string): string => {
 const getRoleColor = (roleName: string): string => {
   switch (roleName) {
     case 'admin': return 'red';
-    case 'pharmacist': return 'blue';
+    case 'user': return 'blue';
     case 'cashier': return 'green';
     default: return 'grey';
   }
@@ -283,7 +277,7 @@ const getStatusText = (status: UserStatus): string => {
   }
 };
 
-const formatDateTime = (date: Date): string => {
+const formatDateTime = (date: Date | string): string => {
   return new Intl.DateTimeFormat('vi-VN', {
     day: '2-digit',
     month: '2-digit',
@@ -343,17 +337,15 @@ const handleSaveUser = async (success: boolean): Promise<void> => {
 
 const toggleUserStatus = async (user: User): Promise<void> => {
   const newStatus: UserStatus = user.status === 'active' ? 'inactive' : 'active';
-  await usersStore.updateUser(user.id, { status: newStatus });
+  await usersStore.updateUser(user.userId, { status: newStatus });
 };
 
-const confirmDeleteUser = (user: User): void => {
-  userToDelete.value = user;
-  showDeleteDialog.value = true;
-};
 
-const handleDeleteUser = async (): Promise<void> => {
-  if (userToDelete.value) {
-    const success = await usersStore.deleteUser(userToDelete.value.id);
+const handleDeleteUser = async (item: any): Promise<void> => {
+  const ok = await dialog.confirm('Bạn có chắc chắn muốn xóa không?')
+  if (ok) {
+    console.log('Deleting user:', item.userId);
+    const success = await usersStore.deleteUser(item.userId);
     if (success) {
       showDeleteDialog.value = false;
       userToDelete.value = null;
@@ -378,6 +370,11 @@ onMounted(async () => {
 
 .user-btn-secondary {
   @apply rounded px-4 h-8 font-medium text-[#11c393] bg-white border border-[#11c393] hover:bg-[#11c393] hover:text-white tracking-wide transition-all duration-200;
+  min-width: auto !important;
+}
+
+.filter-btn-secondary {
+  @apply rounded px-4 h-full font-medium text-[#11c393] bg-white border border-[#11c393] hover:bg-[#11c393] hover:text-white tracking-wide transition-all duration-200;
   min-width: auto !important;
 }
 
@@ -409,7 +406,7 @@ onMounted(async () => {
 }
 
 .user-table :deep(tbody td) {
-  @apply px-2 py-3 text-sm;
+  @apply px-2 py-2 text-sm !important;
   border-bottom: 1px solid #f1f5f9;
 }
 

@@ -601,7 +601,7 @@ onMounted(() => {
 }
 
 .customer-table :deep(tbody td) {
-  @apply px-2 py-3 text-sm;
+  @apply px-2 py-2 text-sm !important;
   border-bottom: 1px solid #f1f5f9;
 }
 

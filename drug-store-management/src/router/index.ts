@@ -125,6 +125,14 @@ const routes: Array<RouteRecordRaw> = [
           requiresAuth: true,
         },
       },
+      {
+        path: "/reports",
+        name: "reports",
+        component: () => import('@/views/Report.vue'),
+        meta: {
+          requiresAuth: true,
+        },
+      },
     ],
   },
 ]

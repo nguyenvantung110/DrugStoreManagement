@@ -1,9 +1,12 @@
 ﻿using drug_store_api.data.Configurations;
 using drug_store_api.entities.Batches;
+using drug_store_api.entities.Categories;
 using drug_store_api.entities.Customers;
 using drug_store_api.entities.InventoryTransactions;
 using drug_store_api.entities.PrescriptionItems;
 using drug_store_api.entities.Prescriptions;
+using drug_store_api.entities.PrescriptionTemplateItems;
+using drug_store_api.entities.PrescriptionTemplates;
 using drug_store_api.entities.Products;
 using drug_store_api.entities.PurchaseOrderItems;
 using drug_store_api.entities.PurchaseOrders;
@@ -33,8 +36,11 @@ namespace drug_store_api.data
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<PrescriptionItem> PrescriptionItems { get; set; }
+        public DbSet<PrescriptionTemplate> PrescriptionTemplates { get; set; }
+        public DbSet<PrescriptionTemplateItem> PrescriptionTemplateItems { get; set; }
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestItem> PurchaseRequestItems { get; set; }
+        public DbSet<Category> Categories { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,6 +50,7 @@ namespace drug_store_api.data
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PurchaseOrderConfiguration());
+            modelBuilder.ApplyConfiguration(new PrescriptionTemplateItemConfiguration());
         }
     }
 }

@@ -29,6 +29,7 @@ builder.Services.AddControllers()
 builder.Services.AddDbContext<DrugStoreDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
     {
+        npgsqlOptions.MapEnum<UserStatus>("user_status");
         npgsqlOptions.MapEnum<UserRole>("user_role");
         npgsqlOptions.MapEnum<PurchaseOrderStatusEnum>("purchase_order_status_enum");
         npgsqlOptions.MapEnum<PurchaseRequestStatusEnum>("purchase_request_status_enum");

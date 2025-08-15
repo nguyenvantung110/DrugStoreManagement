@@ -11,6 +11,13 @@ namespace drug_store_api.entities.Users
         cashier
     }
 
+    public enum UserStatus
+    {
+        active,
+        inactive,
+        suspended
+    }
+
     [Table("users")]
     public class User
     {
@@ -46,6 +53,12 @@ namespace drug_store_api.entities.Users
 
         [Column("updated_at")]
         public DateTime UpdatedAt { get; set; }
+
+        [Column("last_login")]
+        public DateTime LastLogin { get; set; }
+
+        [Column("status")]
+        public UserStatus? Status { get; set; }
     }
 
 }

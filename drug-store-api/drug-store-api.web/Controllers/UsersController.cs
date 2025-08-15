@@ -31,22 +31,22 @@ namespace drug_store_api.web.Controllers
             return customer;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<UserDto>> CreateCustomer(UserDto userDto)
+        [HttpPost("create")]
+        public async Task<ActionResult<UserDto>> CreateUser(UserDto userDto)
         {
             await _userService.CreateUser(userDto);
             return NoContent();
         }
 
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateCustomer(UserUpdateDto userDto)
+        public async Task<IActionResult> UpdateUser(UserUpdateDto userDto)
         {
             await _userService.UpdateUser(userDto);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(Guid id)
+        [HttpPost("delete/{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
             await _userService.DeleteUser(id);
             return NoContent();

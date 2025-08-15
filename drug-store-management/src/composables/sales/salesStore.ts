@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import type { DrugItem, SalesTransaction } from '@/models/sales';
+import { useApi } from '@/composables/common/api-instance';
+import { END_POINTS } from '@/endpoints/api-endpoints';
 
 export const useSalesStore = defineStore('sales-store', () => {
   // State
-  const drugListToSale = ref<DrugItem[]>([]);
+  const drugListToSale = ref<any[]>([]);
   const currentTransaction = ref<SalesTransaction | null>(null);
   const goBackStatus = ref(false);
   const isLoading = ref(false);
@@ -60,6 +62,20 @@ export const useSalesStore = defineStore('sales-store', () => {
     error.value = null;
   };
 
+  const loadInitialDrugList = async (): Promise<void> => {
+    try {
+      const { get } = useApi();
+      await get(END_POINTS.PRODUCT.GET_BASIC_INFO_LIST())
+        .then((res) => {
+          // success(res);
+          drugListToSale.value = res.data as any
+        });
+    } catch (error) {
+      console.error('Error loading initial drug list:', error);
+      throw error;
+    }
+  };
+
   return {
     // State
     drugListToSale,
@@ -74,6 +90,7 @@ export const useSalesStore = defineStore('sales-store', () => {
     getGrandTotal,
     // Actions
     updateDrugListToSale,
+    loadInitialDrugList,
     addDrugToSale,
     removeDrugFromSale,
     updateDrugQuantity,

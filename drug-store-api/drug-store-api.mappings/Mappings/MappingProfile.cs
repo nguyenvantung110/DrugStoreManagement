@@ -10,6 +10,12 @@ using drug_store_api.entities.PurchaseOrders;
 using drug_store_api.dtos.Auth;
 using drug_store_api.entities.PurchaseRequests;
 using drug_store_api.dtos.PurchaseRequests;
+using drug_store_api.dtos.Products;
+using drug_store_api.dtos.PrescriptionTemplates;
+using drug_store_api.entities.PrescriptionTemplates;
+using drug_store_api.entities.PrescriptionTemplateItems;
+using drug_store_api.dtos.Categories;
+using drug_store_api.entities.Categories;
 
 namespace drug_store_api.systemcommon.Mappings
 {
@@ -27,7 +33,6 @@ namespace drug_store_api.systemcommon.Mappings
             CreateMap<UserUpdateDto, User>()
                 .ForMember(dest => dest.Username, opt => opt.Ignore())
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
-                .ForMember(dest => dest.Role, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
 
@@ -66,6 +71,18 @@ namespace drug_store_api.systemcommon.Mappings
             CreateMap<PurchaseOrder, PurchaseOrderDetailDto>();
             CreateMap<PurchaseOrderItem, PurchaseOrderItemDetailDto>();
             CreateMap<Product, ProductDto>();
+            CreateMap<Product, ProductForPrescriptionDto>();
+            CreateMap<ProductBasicInfo, ProductBasicInfoDto>();
+
+            // Prescription mapping
+            CreateMap<PrescriptionTemplateItem, PrescriptionTemplateItemDto>();
+            //CreateMap<PrescriptionTemplate, PrescriptionTemplateDto>();
+            CreateMap<PrescriptionTemplate, PrescriptionTemplateDto>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.User.Username));
+
+            // Category mapping
+            CreateMap<Category, CategoryDto>();
+            CreateMap<Category, CategoryByTypeDto>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using drug_store_api.dtos.Products;
 using drug_store_api.dtos.PurchaseOrders;
 using drug_store_api.entities.PurchaseOrderItems;
 using drug_store_api.entities.PurchaseOrders;

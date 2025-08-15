@@ -12,6 +12,9 @@ namespace drug_store_api.repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPurchaseOrdersRepository, PurchaseOrdersRepository>();
             services.AddScoped<IPurchaseRequestRepository, PurchaseRequestRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             return services;
         }
     }

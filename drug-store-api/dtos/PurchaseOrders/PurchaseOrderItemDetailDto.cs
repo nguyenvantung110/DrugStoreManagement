@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using drug_store_api.dtos.Products;
 
 namespace drug_store_api.dtos.PurchaseOrders
 {

@@ -32,57 +32,28 @@ export const useUsersStore = defineStore('users-store', () => {
   // Actions
   const fetchUsers = async (filter?: Partial<UserListFilter>): Promise<void> => {
     try {
-      isLoading.value = true;
       error.value = null;
 
       if (filter) {
         currentFilter.value = { ...currentFilter.value, ...filter };
       }
 
-      // Mock API call - thay thế bằng API thực tế
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const roleValue = roles.value.find(r => r.id === currentFilter.value?.role)!
+      const { get } = useApi();
 
-      // Mock data
-      const mockUsers: User[] = [
-        {
-          id: '1',
-          username: 'admin',
-          email: 'admin@pharmacy.com',
-          fullName: 'Nguyễn Văn Admin',
-          phone: '0901234567',
-          role: { id: '1', name: 'admin', displayName: 'Quản trị viên', permissions: [] },
-          status: 'active',
-          createdAt: new Date('2024-01-01'),
-          updatedAt: new Date('2024-01-15'),
-          lastLogin: new Date('2024-08-08')
-        },
-        {
-          id: '2',
-          username: 'pharmacist1',
-          email: 'pharmacist1@pharmacy.com',
-          fullName: 'Trần Thị Dược Sĩ',
-          phone: '0901234568',
-          role: { id: '2', name: 'pharmacist', displayName: 'Dược sĩ', permissions: [] },
-          status: 'active',
-          createdAt: new Date('2024-01-02'),
-          updatedAt: new Date('2024-01-16'),
-          lastLogin: new Date('2024-08-07')
-        },
-        {
-          id: '3',
-          username: 'cashier1',
-          email: 'cashier1@pharmacy.com',
-          fullName: 'Lê Văn Thu Ngân',
-          phone: '0901234569',
-          role: { id: '3', name: 'cashier', displayName: 'Thu ngân', permissions: [] },
-          status: 'inactive',
-          createdAt: new Date('2024-01-03'),
-          updatedAt: new Date('2024-01-17')
-        }
-      ];
+      await get(END_POINTS.USER.GET_USER_LIST())
+      .then((res) => {
+        users.value = res.data as any;
+        // Call api with fiter
+        users.value = users.value.filter(user => {
+          return (!currentFilter.value.search || user.username.includes(currentFilter.value.search)) &&
+            (!roleValue || user.role === roleValue.name) &&
+            (!currentFilter.value.status || user.status === currentFilter.value.status);
+        });
 
-      users.value = mockUsers;
-      totalUsers.value = mockUsers.length;
+        totalUsers.value = users.value.length;
+      });
+
     } catch (err) {
       error.value = 'Không thể tải danh sách người dùng';
       console.error('Error fetching users:', err);
@@ -93,13 +64,11 @@ export const useUsersStore = defineStore('users-store', () => {
 
   const fetchRoles = async (): Promise<void> => {
     try {
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-
       const mockRoles: UserRole[] = [
         { id: '1', name: 'admin', displayName: 'Quản trị viên', permissions: [] },
-        { id: '2', name: 'pharmacist', displayName: 'Dược sĩ', permissions: [] },
-        { id: '3', name: 'cashier', displayName: 'Thu ngân', permissions: [] }
+        { id: '2', name: 'user', displayName: 'Dược sĩ', permissions: [] },
+        { id: '3', name: 'cashier', displayName: 'Thu ngân', permissions: [] },
+        { id: '4', name: 'guest', displayName: 'Khách mời', permissions: [] }
       ];
 
       roles.value = mockRoles;
@@ -114,24 +83,29 @@ export const useUsersStore = defineStore('users-store', () => {
       isLoading.value = true;
       error.value = null;
 
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const roleValue = roles.value.find(r => r.id === userData.roleId)!
 
       // Mock creation
-      const newUser: User = {
-        id: Date.now().toString(),
+      const userDto: User = {
+        userId: '00000000-0000-0000-0000-000000000000',
         username: userData.username,
-        email: userData.email,
+        passwordHash: userData.passwordHash,
         fullName: userData.fullName,
-        phone: userData.phone,
-        role: roles.value.find(r => r.id === userData.roleId)!,
+        role: roleValue.name,
+        email: userData.email,
+        phoneNumber: userData.phoneNumber,
         status: 'active',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastLogin: new Date(),
       };
 
-      users.value.unshift(newUser);
-      totalUsers.value++;
+      const { post } = useApi();
+      await post(END_POINTS.USER.CREATE_USER(), userDto)
+      .then((res) => {
+        users.value.unshift(userDto);
+        totalUsers.value++;
+      });
 
       return true;
     } catch (err) {
@@ -148,17 +122,25 @@ export const useUsersStore = defineStore('users-store', () => {
       isLoading.value = true;
       error.value = null;
 
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const userIndex = users.value.findIndex(u => u.userId === userId);
+      const roleValue = roles.value.find(r => r.id === userData.roleId)!
 
-      const userIndex = users.value.findIndex(u => u.id === userId);
       if (userIndex !== -1) {
         users.value[userIndex] = {
           ...users.value[userIndex],
           ...userData,
-          role: userData.roleId ? roles.value.find(r => r.id === userData.roleId)! : users.value[userIndex].role,
+          role: roleValue.name,
           updatedAt: new Date()
         };
+
+        const userDto = users.value[userIndex];
+
+        const { post } = useApi();
+        await post(END_POINTS.USER.UPDATE_USER_INFO(), userDto)
+        .then((res) => {
+          users.value.unshift(userDto);
+          totalUsers.value++;
+        });
       }
 
       return true;
@@ -176,11 +158,14 @@ export const useUsersStore = defineStore('users-store', () => {
       isLoading.value = true;
       error.value = null;
 
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      users.value = users.value.filter(u => u.id !== userId);
-      totalUsers.value--;
+      const { post } = useApi();
+      await post(END_POINTS.USER.DELETE_USER({
+        pathParams: { id: userId }
+      }))
+      .then((res) => {
+        users.value = users.value.filter(u => u.userId !== userId);
+        totalUsers.value--;
+      });
 
       return true;
     } catch (err) {
