@@ -442,7 +442,7 @@ const addNewDrug = (): void => {
 
 const removeDrugItem = (index: number): void => {
   drugList.value.splice(index, 1);
-  // Cập nhật lại số thứ tự
+  // Update indexes
   drugList.value.forEach((item, idx) => {
     item.seq = idx + 1;
   });
@@ -530,8 +530,8 @@ const handlePayment = (): void => {
     // Show error message
     return;
   }
-  
-  salesStore.updateDrugListToSale(validDrugs);
+
+  salesStore.updateDrugListToPayment(validDrugs, grandTotal.value, notes.value);
   router.push('/payment');
 };
 
@@ -540,25 +540,68 @@ const selectPrescription = (): void => {
 }
 
 const handlePrescriptionSelected = (prescription: any): void => {
-  // Convert prescription items to drug list format
-  if (prescription.prescriptionItems) {
-    const prescriptionDrugs = prescription.prescriptionItems.map((item: any, index: number) => ({
-      seq: drugList.value.length + index + 1,
-      name: item.drugName,
-      quantity: item.quantity,
-      unit: item.unit,
-      dosage: item.dosage,
-      unitPrice: item.unitPrice,
-      subTotal: item.quantity * item.unitPrice,
-      prescriptionCode: prescription.prescriptionCode,
-      patientName: prescription.patientName
-    }))
-    
-    // Add prescription drugs to current list
-    drugList.value.push(...prescriptionDrugs)
-    
-    // Show success message
+  if (!prescription.prescriptionItems) {
+    return;
   }
+
+  prescription.prescriptionItems.forEach((item: any) => {
+    const productId = item.product.productId;
+    const productName = item.product.productName;
+    const newQuantity = item.quantity || 0;
+
+    // Find drug that already exists in drugList (check by both productId and productName)
+    const existingIndex = drugList.value.findIndex(existingItem => {
+      // Check by productId first
+      if (productId && existingItem.productId) {
+        return existingItem.productId === productId;
+      }
+      
+      // Check by productName if productId not exists
+      if (productName && existingItem.productName) {
+        return existingItem.productName.toLowerCase().trim() === productName.toLowerCase().trim();
+      }
+      
+      return false;
+    });
+
+    if (existingIndex !== -1) {
+      // If product exists - accumulate quantity
+      const existingItem = drugList.value[existingIndex];
+      const oldQuantity = existingItem.quantity || 0;
+      const newTotalQuantity = oldQuantity + newQuantity;
+
+      // Update quantity and other information
+      drugList.value[existingIndex] = {
+        ...existingItem,
+        quantity: newTotalQuantity,
+        dosage: item.dosage || existingItem.dosage, // Update dosage if provided
+        unitOfMeasure: item.product.unitOfMeasure?.toLowerCase() || existingItem.unitOfMeasure,
+        pricePerUnit: item.product.pricePerUnit || existingItem.pricePerUnit,
+      };
+      
+      // Update subtotal
+      calculateSubTotal(existingIndex);
+    } else {
+      const newDrugItem = {
+        seq: drugList.value.length + 1,
+        productId: productId,
+        productName: productName,
+        manufacturer: item.product.manufacturer || '',
+        quantity: newQuantity,
+        unitOfMeasure: item.product.unitOfMeasure?.toLowerCase() || 'viên',
+        dosage: item.dosage || '',
+        pricePerUnit: item.product.pricePerUnit || 0,
+        subTotal: newQuantity * (item.product.pricePerUnit || 0)
+      };
+      
+      drugList.value.push(newDrugItem);
+    }
+  });
+
+  // Update sequence numbers for all items
+  drugList.value.forEach((item, index) => {
+    item.seq = index + 1;
+  });
 }
 
 // Enhanced search function
@@ -625,7 +668,6 @@ const handleBatchProductsAdd = (products: DrugSearchResult[]): void => {
   });
 
   showBarcodeScanner.value = false;
-  console.log(`Added ${products.length} products from batch scan`);
 };
 </script>
 

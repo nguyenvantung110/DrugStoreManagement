@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace drug_store_api.entities.InventoryTransactions
+namespace drug_store_api.entities.Inventory
 {
     public enum InventoryTransactionTypeEnum { In, Out, Adjustment }
 

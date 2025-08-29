@@ -133,7 +133,7 @@
       <v-card class="dashboard-card" elevation="2">
         <v-card-title class="card-title">
           <div class="flex items-center gap-2">
-            <v-icon color="primary" size="20">mdi-receipt</v-icon>
+            <v-icon color="#11c393" size="25">mdi-receipt-text-clock-outline</v-icon>
             <span>Đơn hàng gần đây</span>
           </div>
           <v-btn
@@ -155,7 +155,7 @@
               class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
             >
               <v-avatar size="32" :color="getOrderStatusColor(order.status)">
-                <v-icon color="white" size="16">mdi-receipt</v-icon>
+                <v-icon color="white" size="16">mdi-receipt-text-clock-outline</v-icon>
               </v-avatar>
               <div class="flex-1">
                 <div class="flex justify-between items-start">

@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\drug-store-api.mappings\drug-store-api.systemcommon.csproj" />
     <ProjectReference Include="..\drug-store-api.repositories\drug-store-api.repositories.csproj" />
     <ProjectReference Include="..\dtos\drug-store-api.dtos.csproj" />
   </ItemGroup>

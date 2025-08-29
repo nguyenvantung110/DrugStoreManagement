@@ -2,6 +2,7 @@ using AutoMapper;
 using drug_store_api.data;
 using drug_store_api.entities.PurchaseOrders;
 using drug_store_api.entities.PurchaseRequests;
+using drug_store_api.entities.SalesOrders;
 using drug_store_api.entities.Users;
 using drug_store_api.repositories;
 using drug_store_api.services;
@@ -14,8 +15,25 @@ using Npgsql;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Override("System", LogEventLevel.Warning)
+    //.WriteTo.Console(
+    //    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File(
+        path: "logs/drugstore-api-.log",
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 30,
+        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
+    .Enrich.FromLogContext()
+    .CreateLogger();
 
 // Add services to the container.
 
@@ -33,6 +51,8 @@ builder.Services.AddDbContext<DrugStoreDbContext>(options =>
         npgsqlOptions.MapEnum<UserRole>("user_role");
         npgsqlOptions.MapEnum<PurchaseOrderStatusEnum>("purchase_order_status_enum");
         npgsqlOptions.MapEnum<PurchaseRequestStatusEnum>("purchase_request_status_enum");
+        npgsqlOptions.MapEnum<PaymentMethodEnum>("payment_method_enum");
+        npgsqlOptions.MapEnum<SalesOrderStatusEnum>("sales_order_status_enum");
     }));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

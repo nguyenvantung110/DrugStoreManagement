@@ -1,28 +1,34 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { DrugItem, SalesTransaction } from '@/models/sales';
+import type { DrugItem, OrderCreateDto, SalesTransaction } from '@/models/sales';
 import { useApi } from '@/composables/common/api-instance';
 import { END_POINTS } from '@/endpoints/api-endpoints';
+import { useLoadingStore } from '@/composables/common/loadingStore';
 
 export const useSalesStore = defineStore('sales-store', () => {
+  const loadingStore = useLoadingStore();
+
   // State
-  const drugListToSale = ref<any[]>([]);
+  const drugListToSale = ref<DrugItem[]>([]);
   const currentTransaction = ref<SalesTransaction | null>(null);
   const goBackStatus = ref(false);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
+  const notes = ref<string>('');
+  const grandTotal = ref<number>(0);
 
   // Getters
   const getDrugListToSale = computed(() => drugListToSale.value);
   const getGoBackStatus = computed(() => goBackStatus.value);
   const getCurrentTransaction = computed(() => currentTransaction.value);
-  const getGrandTotal = computed(() => 
-    drugListToSale.value.reduce((sum, item) => sum + item.subTotal, 0)
-  );
+  const getGrandTotal = computed(() => grandTotal.value);
+  const getNotes = computed(() => notes.value);
 
   // Actions
-  const updateDrugListToSale = (drugs: DrugItem[]): void => {
+  const updateDrugListToPayment = (drugs: DrugItem[], presGrandTotal: number, presNotes: string): void => {
     drugListToSale.value = [...drugs];
+    grandTotal.value = presGrandTotal;
+    notes.value = presNotes;
     goBackStatus.value = true;
   };
 
@@ -43,7 +49,7 @@ export const useSalesStore = defineStore('sales-store', () => {
     if (drugListToSale.value[index]) {
       drugListToSale.value[index].quantity = quantity;
       drugListToSale.value[index].subTotal = 
-        drugListToSale.value[index].unitPrice * quantity;
+        drugListToSale.value[index].pricePerUnit * quantity;
     }
   };
 
@@ -76,6 +82,13 @@ export const useSalesStore = defineStore('sales-store', () => {
     }
   };
 
+  const createOrder = async (orderCreateDto: OrderCreateDto): Promise<void> => {
+    loadingStore.show();
+    const { post } = useApi();
+    await post(END_POINTS.SALE_ORDERS.CREATE_ORDER(), { ...orderCreateDto })
+    loadingStore.hide();
+  };
+
   return {
     // State
     drugListToSale,
@@ -88,14 +101,16 @@ export const useSalesStore = defineStore('sales-store', () => {
     getGoBackStatus,
     getCurrentTransaction,
     getGrandTotal,
+    getNotes,
     // Actions
-    updateDrugListToSale,
+    updateDrugListToPayment,
     loadInitialDrugList,
     addDrugToSale,
     removeDrugFromSale,
     updateDrugQuantity,
     clearSaleData,
     setError,
-    clearError
+    clearError,
+    createOrder
   };
 });

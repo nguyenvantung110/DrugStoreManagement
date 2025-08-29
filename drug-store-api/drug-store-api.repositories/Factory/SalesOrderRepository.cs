@@ -23,7 +23,28 @@ namespace drug_store_api.repositories.Factory
             return await _context.SalesOrders.Where(x => x.CreatedAt == createdDate).ToListAsync();
         }
 
+        public async Task CreateSaleOrder(SalesOrder saleOrder)
+        {
+            await _context.SalesOrders.AddAsync(saleOrder);
+            await _context.SaveChangesAsync();
+        }
+
         public Task<SalesOrder> GetSalesOrderDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SalesOrder?> GetSaleOrderById(Guid orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<SalesOrder>> GetSaleOrdersByDateRange(DateTime fromDate, DateTime toDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateSaleOrder(SalesOrder saleOrder)
         {
             throw new NotImplementedException();
         }

@@ -69,5 +69,8 @@ export const END_POINTS = {
     CREATE_CATEGORY: createEndpoint("/api/categories/create"),
     UPDATE_CATEGORY: createEndpoint("/api/categories/update"),
     DELETE_CATEGORY: createEndpoint("/api/categories/delete/:id"),
+  },
+  SALE_ORDERS: {
+    CREATE_ORDER: createEndpoint("/api/sales-orders/create-order"),
   }
 };

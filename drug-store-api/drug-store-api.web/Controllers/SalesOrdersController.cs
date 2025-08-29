@@ -1,4 +1,5 @@
 ﻿using drug_store_api.dtos.PurchaseOrders;
+using drug_store_api.dtos.SaleOrders;
 using drug_store_api.services.IF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,14 @@ namespace drug_store_api.web.Controllers
         {
             var res = await _service.GetSaleOrderByCreatedDate(createdDate);
             return Ok(res);
+        }
+
+        [HttpPost]
+        [Route("create-order")]
+        public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto orderCreateDto)
+        {
+            await _service.CreateOrder(orderCreateDto);
+            return NoContent();
         }
     }
 }

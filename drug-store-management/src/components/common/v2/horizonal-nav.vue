@@ -17,7 +17,7 @@
                     v-if="isShowAccountInfo"
                     class="account-info rounded-md border border-gray-400 absolute top-full right-0 bg-white z-50"
                 >
-                    <div class="info-header border-b border-gray-400 bg-slate-50 flex flex-row gap-3 py-5 px-7">
+                    <div class="info-header rounded-ss-md border-b border-gray-400 bg-slate-50 flex flex-row gap-3 py-5 px-7">
                         <div class="avatar rounded-full bg-[#3fbd9a] w-10 h-10 flex flex-col items-center justify-center">AB</div>
                         <div class="user-info  flex flex-col ggap-1">
                             <span class="text-sm font-medium">TungNV</span>
@@ -25,18 +25,18 @@
                         </div>
                     </div>
                     <div class="inf-content py-5 px-7 flex flex-col gap-4">
-                        <button class="flex flex-row gap-2 items-center" @click="router.push('/personalinfo'); isShowAccountInfo = false">
-                            <v-icon size="20" color="primary">mdi-account-outline</v-icon>
+                        <button class="flex flex-row gap-2 items-center hover:text-[#11c393]" @click="router.push('/personalinfo'); isShowAccountInfo = false">
+                            <v-icon size="20" color="#11c393">mdi-account-outline</v-icon>
                             <span class="text-sm">Thông tin tài khoản</span>
                         </button>
-                        <button class="flex flex-row gap-2 items-center">
-                            <v-icon size="20" color="primary">mdi-cog-outline</v-icon>
+                        <button class="flex flex-row gap-2 items-center hover:text-[#11c393]">
+                            <v-icon size="20" color="#11c393">mdi-cog-outline</v-icon>
                             <span class="text-sm">Cài đặt tài khoản</span>
                         </button>
                     </div>
                     <div class="info-footer border-t border-gray-400 py-5 px-7">
-                        <button class="flex flex-row gap-2 items-center" @click="logout">
-                            <v-icon size="20" color="primary">mdi-logout</v-icon>
+                        <button class="flex flex-row gap-2 items-center hover:text-[#11c393]" @click="logout">
+                            <v-icon size="20" color="#11c393">mdi-logout</v-icon>
                             <span class="text-sm">Đăng xuất</span>
                         </button>
                     </div>

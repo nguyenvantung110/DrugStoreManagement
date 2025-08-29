@@ -2,7 +2,7 @@
 using drug_store_api.entities.Batches;
 using drug_store_api.entities.Categories;
 using drug_store_api.entities.Customers;
-using drug_store_api.entities.InventoryTransactions;
+using drug_store_api.entities.Inventory;
 using drug_store_api.entities.PrescriptionItems;
 using drug_store_api.entities.Prescriptions;
 using drug_store_api.entities.PrescriptionTemplateItems;
@@ -41,6 +41,7 @@ namespace drug_store_api.data
         public DbSet<PurchaseRequest> PurchaseRequests { get; set; }
         public DbSet<PurchaseRequestItem> PurchaseRequestItems { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductInventory> ProductInventories { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

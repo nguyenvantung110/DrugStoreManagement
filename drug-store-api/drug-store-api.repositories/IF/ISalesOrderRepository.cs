@@ -12,5 +12,9 @@ namespace drug_store_api.repositories.IF
     {
         Task<IEnumerable<SalesOrder>> GetSalesOrderByCreatedDate(DateTime createdDate);
         Task<SalesOrder> GetSalesOrderDetails();
+        Task CreateSaleOrder(SalesOrder saleOrder);
+        Task<SalesOrder?> GetSaleOrderById(Guid orderId);
+        Task<List<SalesOrder>> GetSaleOrdersByDateRange(DateTime fromDate, DateTime toDate);
+        Task<bool> UpdateSaleOrder(SalesOrder saleOrder);
     }
 }

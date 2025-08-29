@@ -33,3 +33,25 @@ export interface TableHeader {
   align?: 'start' | 'center' | 'end';
   sortable?: boolean;
 }
+
+export interface OrderCreateDto {
+  customer: CustomerForOrderCreate;
+  userId: string;
+  paymentMethod: string;
+  products: ProductForOrder[];
+  grandTotal: number;
+  notes?: string;
+}
+
+export interface CustomerForOrderCreate {
+  customerName: string;
+  phoneNumber: string;
+}
+
+export interface ProductForOrder {
+  productId: string;
+  dosage: string;
+  subTotal: number;
+  unitPrice?: number;
+  quantity?: number;
+}

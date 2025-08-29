@@ -40,6 +40,6 @@ a {
     border: thin solid #11c393 !important;
 }
 
-.v-date-picker-month__day .v-btn.v-date-picker-month__day-btn:hover {
+.v-date-picker-month__day:not(.v-date-picker-month__day--selected) .v-btn.v-date-picker-month__day-btn:hover {
   background: #02f8b717 !important;
 }
